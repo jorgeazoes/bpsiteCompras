@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option csharp_namespace = "PROYDOS";
+
+service CCotizacionesService{    
+    rpc GetCotizaciones(GetCCotizacionRequest) returns (stream GetCCotizacionResponse);
+   
+}
+
+message CCotizacionOrden{
+    string cod_empresa = 1;
+    string num_cotizacion = 2;
+    string fec_cotizacion = 3;
+    string cod_usuario = 4;
+    string asistente = 5;
+    string fec_vencimiento = 6; 
+    string cod_estado = 7;
+    string nom_estado = 8; 
+}
+
+/* client asking for all locations */
+message GetCCotizacionRequest {
+    string pcod_empresa = 1; // Codigo de empresa referenciada del core para el que se ejecuta el proceso,
+    string pcod_usuario_windows = 2; // Codigo de usuario que ejecuta el proceso
+    string pnum_comparativo    = 3; // Codigo de usuario que ejecuta el proceso
+}
+
+/* response with all locations */
+message GetCCotizacionResponse {
+    CCotizacionOrden CCotizacionOrden = 1;
+    string perror_tecnico = 2; // Mensaje de error técnico del error ocurrido. Si todo está bien se retorna el valor 000000
+    string perror_usuario = 3; // En caso de ocurrir un error, se retorna el mensaje en len
+}

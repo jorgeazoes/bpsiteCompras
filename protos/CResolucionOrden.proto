@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+option csharp_namespace = "PROYCUATRO";
+
+service CResolucionOrdenService{    
+    rpc PutCResolucionOrden(PutCResolucionOrdenRequest) returns (PutCResolucionOrdenResponse);
+}
+
+message CResolucionOrden{
+    string cod_empresa = 1;
+    string tip_resolucion = 2;
+    string num_orden_compra = 3;
+    string num_autorizacion = 4;
+    string des_observaciones = 5;
+    string mensaje_repuesta = 6;
+}
+
+
+/* client asking for all locations */
+message PutCResolucionOrdenRequest {
+    CResolucionOrden CResolucion = 1;
+    string pcod_empresa = 2; // Codigo de empresa referenciada del core para el que se ejecuta el proceso,
+    string pcod_usuario_windows = 3; // Codigo de usuario que ejecuta el proceso
+}
+
+/* response with all locations */
+message PutCResolucionOrdenResponse {
+    CResolucionOrden CResolucion = 1;
+    string perror_tecnico = 2; // Mensaje de error técnico del error ocurrido. Si todo está bien se retorna el valor 000000
+    string perror_usuario = 3; // En caso de ocurrir un error, se retorna el mensaje en len
+}

@@ -1,0 +1,55 @@
+@{
+    ViewData["Title"] = "Detalle de Cotización";
+    List<CCotizacionDeta> listaCotizacionDetalle = (List<CCotizacionDeta>)ViewData["LCotizacionDetalle"]; 
+}
+
+<h4 class="h4">@ViewData["Title"] Orden N. @ViewBag.vNumOrden</h4>
+<h5 class="h5"> Cotizaci&oacute;n @ViewBag.vNumCotizacion </h5>
+
+<table class="highlight centered responsive-table">
+    <thead>
+      <tr>  
+            <th>
+              L&iacute;nea
+            </th>
+            <th>                      
+            </th>
+            <th>
+              Producto Solicitado
+            </th>
+            <th>
+              Cantidad
+            </th>
+            <th>
+              Embalaje
+            </th>
+            <th>
+              Notas
+            </th>
+      </tr>
+    </thead>
+    <tbody>
+          @foreach (var itemAd in listaCotizacionDetalle){
+                <tr>
+                  <td align="Center">  
+                    @Html.DisplayFor(m => itemAd.NumCotizacionDetalle)
+                  </td>
+                  <td>
+                      @Html.DisplayFor(m => itemAd.NumProducto)
+                  </td> 
+                  <td>
+                    @Html.DisplayFor(m => itemAd.NomProducto)
+                  </td>
+                  <td align="Center">
+                    @Html.DisplayFor(m => itemAd.NumCantidad)
+                  </td>                         
+                  <td class="Center">
+                    @Html.DisplayFor(m => itemAd.Embalaje)
+                    </td>  
+                    <td>
+                    @Html.DisplayFor(m => itemAd.ObsUsuario)
+                    </td>         
+                </tr>
+                }
+      </tbody>
+  </table>

@@ -1,0 +1,113 @@
+@model List<OrdenesCompra>;
+@{
+    ViewData["Title"] = "Ordenes de Compra Pendientes de Resolución";
+    ViewData["Mensaje"] = @TempData["Mensaje"];
+    //ViewData["Usuario"] = User.Identity.Name();
+}
+
+<!--<h1 class="animated infinite bounce delay-2s">@ViewData["Title"]</h1>
+<h1>@ViewData["Title"]</h1>
+
+ <partial name="~/Views/Shared/_Mensajes.cshtml" />
+ <h6>@TempData["Mensaje"]</h6> 
+  <a onclick="M.toast({html: 'I am a toast'})" class="btn">Toast!</a>
+ -->  
+ 
+<div class="container section ">
+<h5 class="h5">@User.Identity.Name</h5>  
+<h2 class="h2">@ViewData["Title"]</h2>
+
+@if(ViewBag.MensajeRespuesta == "1"){ 
+<div class="chip green">
+   @TempData["Mensaje"]
+    <i class="close material-icons">close</i>
+  </div>
+}
+else{
+    @if(!string.IsNullOrEmpty(ViewBag.MensajeRespuesta))
+    {
+    <div class="chip red">
+      @TempData["Mensaje"]
+        <i class="close material-icons">close</i>
+      </div>
+    }
+}
+
+</div>
+
+<div class="container">
+    <table class="highlight centered">
+            <thead>
+              <tr>
+               <!--   <th>                       
+                    Seleccionar
+                  </th>-->
+                    <th>
+                      Orden
+                    </th>
+                    <th>
+                      T&iacute;tulo de Referencia
+                    </th>
+                    <th>
+                      Creada el
+                    </th>
+                    <th>
+                      Autorizaci&oacute;n
+                    </th>
+                    <th>
+                      Comparativo
+                    </th>
+              </tr>
+            </thead>
+            <tbody>
+                  @foreach (var element in Model)
+                  {
+                <tr>                 
+             <!-- <td align="Center">
+                  <p>
+                  <label>
+                    <input class="with-gap" name="group1" type="radio"  />
+                    <span></span>
+                  </label>
+                </p>
+              </td>-->
+                  <td align="Center">  
+                    @Html.DisplayFor(m => element.NumOrdenCompra)
+                  </td>
+                  <td>
+                      @Html.DisplayFor(m => element.TitOrdenCompra)
+                  </td> 
+                  <td>
+                    @Html.DisplayFor(m => element.FecOrden)
+                  </td>
+                  <td align="Center">
+                    @Html.DisplayFor(m => element.NumAutorizacion)
+                  </td>                         
+                  <td class="Center">
+                    @Html.DisplayFor(m => element.NumComparativo)
+                  </td>  
+               <!--   <td class="Center">
+                     <a class="btn-floating waves-effect waves-light btn-small green">
+                         <i class="material-icons">done</i></a>  
+                  </td>  
+                     <td class="Center">
+                     <a class="btn-floating waves-effect waves-light btn-small red">
+                         <i class="material-icons">close</i></a>  
+                  </td> -->
+                    <td class="Center">
+                    <!--  @{
+                        @Html.HiddenFor(m => element.NumComparativo)
+    
+                       }
+                       asp-action="DetalleOrden" asp-controller="Home" asp-route-id="@element.NumOrdenCompra"-->
+                     <a class="btn-floating waves-effect waves-light btn-large light-green"
+                       href="@Url.Action("DetalleOrden", "Home", new { param1 = element.NumOrdenCompra, param2 = element.NumComparativo })">
+                         <i class="material-icons">format_list_numbered</i></a>  
+                  </td>                                           
+                </tr>
+                }
+              </tbody>
+          </table>
+</div>
+
+

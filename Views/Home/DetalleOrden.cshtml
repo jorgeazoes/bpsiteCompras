@@ -1,0 +1,244 @@
+
+@model CResolucionModel
+@Html.Hidden("tip_resolucion")
+@Html.Hidden("num_orden_compra")
+@Html.Hidden("num_autorizacion")
+@Html.Hidden("num_comparativo")
+@Html.Hidden("num_cotizacion")
+@{
+    ViewData["Title"] = "Detalle de Ordenes de Compra Pendientes de Resolución";
+    List<CAprobadoresOrden> listaA = (List<CAprobadoresOrden>)ViewData["LAprobadores"];
+    List<CAdjuntosOrden> listaAdjuntos = (List<CAdjuntosOrden>)ViewData["LAdjuntos"]; 
+    List<CCotizacionOrden> listaCotizaciones = (List<CCotizacionOrden>)ViewData["LCotizaciones"];      
+   // List<CCotizacionDeta> listaCotizacionDetalle = (List<CCotizacionDeta>)ViewData["LCotizacionDetalle"]; 
+   ViewData["Num_Cotizacion"] = "";
+}
+ <link rel="stylesheet" href="~/css/test.css" />
+<h3 class="h3">@ViewData["Title"]</h3>
+
+<div class="section">  
+ <div class="row">
+    <div class="col s8 m8 l4">
+  <div class="card green">
+    <div class="card-content white-text">
+      <span class="card-title"><h5>Orden N. @ViewBag.vNumOrden</h5></span>
+      <h6 align="Center"><i><b>Aprobadores</b></i></h6>
+      <ul>        
+          @foreach(var item in listaA){
+           <li>
+             @Html.DisplayFor(m => item.NomUsuario) 
+             @switch (item.NomEstado)
+             {
+                 case "Aprobado" :
+                   <span class="black-text">[@Html.DisplayFor(m => item.NomEstado)]</span>
+                 break;
+                 case "Pendiente" :
+                   <span class="yellow-text">[@Html.DisplayFor(m => item.NomEstado)]</span>
+                 break;
+                 case "Rechazado" :
+                   <span class="red-text">[@Html.DisplayFor(m => item.NomEstado)]</span>
+                 break;
+             }          
+                         
+           </li>          
+        }       
+      </ul>
+            <div class="section">
+           <button class="waves-effect waves-light btn light-green accent-4 modal-trigger" data-target="modal1">Aprobar</button>
+           <button class="waves-effect waves-light btn light-green accent-4 modal-trigger right" data-target="modal2">Rechazar</button>
+    </div>
+    </div>
+    
+    <div class="card-action">    
+    </div>
+  </div>
+  </div>    
+    
+
+ <div class="row">
+    <div class="col s12 m12 l8">
+ <div class="card">
+
+     <div class="card-content">
+       <h5 class="h5">Cotizaci&oacute;n de Orden N. @ViewBag.vNumOrden</h5>
+         <table id="tabledetalle" class="highlight centered responsive-table">
+            <thead>
+              <tr>  
+                    <th>
+                      No. Cotizaci&oacute;n
+                    </th>
+                    <th>
+                      Fecha
+                    </th>
+                    <th>                      
+                    </th>
+                    <th>
+                     Asistente
+                    </th>
+                    <th>
+                      Vencimiento
+                    </th>
+                    <th>
+                      Estado
+                    </th>
+              </tr>
+            </thead>
+            <tbody>
+                  @foreach (var itemAd in listaCotizaciones){
+                <tr>                 
+                  <td id = "numero_cotizacion" align="Center">                     
+                    @Html.DisplayFor(m => itemAd.NumCotizacion)                    
+                  </td>
+                  <td>
+                      @Html.DisplayFor(m => itemAd.FecCotizacion) 
+                  </td> 
+                  <td>
+                    @Html.DisplayFor(m => itemAd.CodUsuario)
+                  </td>
+                  <td align="Center">
+                    @Html.DisplayFor(m => itemAd.Asistente)
+                  </td>                         
+                  <td class="Center">
+                    @Html.DisplayFor(m => itemAd.FecVencimiento)
+                  </td>
+                  <td class="Center">
+                    @Html.DisplayFor(m => itemAd.NomEstado)                    
+                  </td>
+                  <td class="Center">
+                 <!--   <button id="btnDetalleCot" class="btn-floating waves-effect waves-light btn-large light-green modal-trigger" data-target="modal3"><i class="material-icons">format_list_numbered</i>Detalle</button> -->
+                   <a class="btn-floating waves-effect waves-light btn-large light-green"
+                       href="@Url.Action("GetDetalleCot", "Home", new { param1 = itemAd.NumCotizacion, param2 = @ViewBag.vNumOrden})">
+                         <i class="material-icons">format_list_numbered</i>
+                         </a>  
+                 </td>
+                </tr>
+                
+                }
+              </tbody>
+          </table>        
+         
+          </div>
+
+          <div class="card-tabs">
+            <ul class="tabs tabs-fixed-width">
+              <!--<li class="tab"><a href="#testDos" >Detalle Cotizacion</a></li> -->
+              <li class="tab"><a href="#testUno" class="active">Adjuntos</a></li>              
+              <li class="tab"><a href="#testTres">Reportes</a></li>
+            </ul>
+          </div>
+
+          <div class="card-content">
+            <div id="testUno">
+              <h5 class="h5">Adjuntos Orden N. @ViewBag.vNumOrden</h5>
+         <table class="highlight centered responsive-table">
+            <thead>
+              <tr>  
+                    <th>
+                      Archivo
+                    </th>
+                    <th>
+                      Tipo de Documento
+                    </th>
+                    <th>
+                      Nombre de Archivo
+                    </th>
+                    <th>
+                      Usr.Adiciona
+                    </th>
+                    <th>
+                      Fec.Adiciona
+                    </th>
+              </tr>
+            </thead>
+            <tbody>
+                  @foreach (var itemAd in listaAdjuntos){
+                <tr>
+                  <td align="Center">  
+                    @Html.DisplayFor(m => itemAd.NumArchivo)
+                  </td>
+                  <td>
+                      @Html.DisplayFor(m => itemAd.CodDocumento) --  @Html.DisplayFor(m => itemAd.TipoDocumento)
+                  </td> 
+                  <td>
+                    @Html.DisplayFor(m => itemAd.NomArchivo)
+                  </td>
+                  <td align="Center">
+                    @Html.DisplayFor(m => itemAd.UsrAdiciona)
+                  </td>                         
+                  <td class="Center">
+                    @Html.DisplayFor(m => itemAd.FecAdiciona)
+                    </td>        
+                </tr>
+                }
+              </tbody>
+          </table>
+              
+              </div>
+           <!--  <div id="testDos">lorem Dos</div>-->
+            <div id="testTres">
+              <div class="content section">
+                <a class="waves-effect waves-light btn-large light-green accent-4"><i class="material-icons left">cloud</i>Reporte 1</a>
+                <a class="waves-effect waves-light btn-large light-green accent-4"><i class="material-icons left">cloud</i>Reporte 2</a>
+              </div>
+              </div> 
+          </div>
+
+        </div>
+   </div>
+ </div>
+  </div>
+</div>
+<form asp-action = "SetResolucion" asp-controller = "Home" method="post">
+<div id="modal1" class="modal">   
+    <div class="modal-content">      
+      <h4 class="green-text">Aprobar Orden N. <i>@ViewBag.vNumOrden</i></h4>
+      <div class="row">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s12 form-group">
+              <textarea asp-for="des_observaciones"  id="textarea1" class="form-control materialize-textarea validate" required></textarea>
+              <label for="textarea1">Justificaci&oacute;n</label>
+            </div>
+          </div>
+        </form>
+      <input id="tip_resolucion" name="tip_resolucion" type="hidden" value="A" />
+    </div>
+    <div class="modal-footer">      
+      <button type="submit" class="modal-close waves-effect waves-green btn">Aprobar</button>
+      <a href="#!" class="modal-close waves-effect waves-red btn">Cancelar</a>      
+    </div>   
+  </div> 
+   <input id="num_orden_compra" name="num_orden_compra" type="hidden" value= @ViewBag.vNumOrden />
+  <input id="num_autorizacion" name="num_autorizacion" type="hidden" value= @ViewBag.vNumAutorizacion />
+  </div>
+</form>  
+
+<form asp-action = "SetResolucion" asp-controller = "Home" method="post">
+<div id="modal2" class="modal">   
+    <div class="modal-content">
+      <h4 class="green-text">Rechazar No.Orden <i>@ViewBag.vNumOrden</i></h4>
+      <div class="row">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s12 form-group">
+              <textarea asp-for="des_observaciones" id="textarea2" class="form-control materialize-textarea validate" required></textarea>
+              <label for="textarea2">Justificaci&oacute;n</label>
+            </div>
+          </div>
+        </form>        
+        <input id="tip_resolucion2" name="tip_resolucion" type="hidden" value="R" />
+    </div>
+    <div class="modal-footer">      
+      <button type="submit" class="modal-close waves-effect waves-green btn">Rechazar</button>
+      <a href="#!" class="modal-close waves-effect waves-red btn">Cancelar</a>      
+    </div>
+  </div>
+   <input id="num_orden_compra1" name="num_orden_compra" type="hidden" value= @ViewBag.vNumOrden />
+  <input id="num_autorizacion1" name="num_autorizacion" type="hidden" value= @ViewBag.vNumAutorizacion />
+  </div>
+  </form>
+
+
+  
+    <!--   <script src="~/js/detalle.js"></script> -->
+    

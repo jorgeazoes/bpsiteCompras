@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] COMPRAS</title>
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">        
+     
+        <link rel="stylesheet" href="~/materialize/css/materialize.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+        <link rel="stylesheet" href="~/css/alertas.css" />
+    <environment include="Development">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        
+        <link rel="stylesheet" href="~/materialize/css/materialize.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+        
+    </environment>
+    <environment exclude="Development">
+
+   </environment>   
+
+</head>
+<body>
+    <header>
+        <div class="navbar-fixed">
+            <nav class="green">
+            <div class="nav-wrapper container">        
+            <a href="#" data-target="menu-responsive" class="sidenav-trigger">
+                <i class="material-icons">menu</i>
+                </a>
+                <ul class="">
+                  <li>
+                    <a href="#" class="brand-logo right">
+                    <img src="~/imagenes/Logo3.png"></img>
+                </a>  
+                </li>
+                <li>
+                    <div class="divider"></div>
+                </li>          
+                <li><a asp-area="" asp-controller="Home" asp-action="Index">Ordenes de Compra</a></li>
+               <!--  <li><a href="">Item</a></li>
+                <li><a href="">Item</a></li> -->          
+                </ul>
+                
+            </div>           
+            </nav>
+                       
+                <ul class="sidenav" id="menu-responsive">    
+                <li><a href="#" class="brand-logo">
+                    <img src="~/imagenes/Logo2.png"></img>
+                </a>  
+                </li> 
+                <li>
+                    <div class="divider"></div>
+                </li>                        
+                <li><a asp-area="" asp-controller="Home" asp-action="Index">Ordenes de Compra</a></li>      
+                <!-- <li><a href="">DOS</a></li>
+                <li><a href="">Item</a></li> -->          
+                </ul>     
+            
+            </div>
+
+    </header>
+    <div class="container">
+        <partial name="_CookieConsentPartial" />
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container section">
+            <div class="row">
+                <div class="col s12">
+            &copy; 2019 - COMPRAS-PAGOS 
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <environment exclude="Development">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+        </script>
+        <script src="~/js/site.js" asp-append-version="true"></script>        
+    </environment>
+    
+      <script src="~/materialize/js/materialize.js"></script>
+      <script>  
+         document.addEventListener('DOMContentLoaded', function() {    
+          M.AutoInit();
+         });    
+     </script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

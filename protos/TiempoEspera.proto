@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+service TiempoEsperaService {
+    rpc GetTiempoEspera (TiempoEsperaRequest) returns (TiempoEspera);
+  }
+  
+  message TiempoEsperaRequest {
+    string empresa_id = 1;
+  }
+  
+  message TiempoEspera {
+    string minutos = 1;
+    //string last_name = 2;
+  }
